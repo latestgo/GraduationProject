@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+</head>
+<body>
+
+<div th:replace="public/head">
+</div>
+
+<div>
+    <p th:text="${goods.title}"></p>
+    <p th:text="${goods.description}"></p>
+    <p th:text="${goods.price}"></p>
+    <p th:text="${goods.publishtime}"></p>
+</div>
+
+</body>
+</html>

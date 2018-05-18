@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a th:href="@{/signout}" th:if="${not #strings.isEmpty(session.loginUser)}" th:text="退出"></a>
+<div th:if="${#strings.isEmpty(session.loginUser)}">
+    <a th:href="@{/signin}" th:text="登录"></a>
+    <a th:href="@{/signup}" th:text="注册"></a>
+</div>
+<a th:href="@{/favorite}">收藏夹</a>
+<a th:href="@{/publish}">快速发布信息</a>
+<a th:href="@{/mygoods}">我的发布</a>
+<a th:href="@{/index}">首页</a>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发布信息</title>
+</head>
+<body>
+
+<div th:replace="public/head">
+</div>
+
+<form th:action="@{/publish}" method="post">
+    <input type="hidden" name="_method" value="put" th:if="${goods!=null}"/>
+    <p style="color:red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+    <input type="text" name="title" placeholder="標題"  required="required" th:value="${goods!=null}?${goods.title}">
+    <input type="text" name="description" placeholder="描述" required="required" th:value="${goods!=null}?${goods.description}">
+    <input type="text" name="price" placeholder="价格" required="required" th:value="${goods!=null}?${goods.price}"><br>
+    <button type="submit" th:text="${goods!=null}?'修改':'发布'">发布</button>
+</form>
+    <a type="hidden" th:if="${goods!=null}" th:href="@{/mygoods}"><button type="button">取消</button></a>
+    <a type="hidden" th:if="${goods==null}" th:href="@{/index}"><button type="button">取消</button></a>
+
+</body>
+</html>

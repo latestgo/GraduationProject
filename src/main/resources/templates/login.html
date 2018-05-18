@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>登陆</title>
+
+    <link th:href="@{webjars/bootstrap/4.1.0/css/bootsrap.css}" ref="stylesheet">
+    <link th:href="@{webjars/bootstrap/4.1.0/css/bootsrap.css}" ref="stylesheet">
+</head>
+<body>
+
+<form class="form-signin" th:action="@{/signin}" method="post">
+    <!--<img class="mb-4" th:src="@{/bootstrap-4.0.0/brand/bootstrap-solid.svg}" alt="" width="72" height="72">-->
+    <!--<h1 class="h3 mb-3 font-weight-normal" th:text="#{login.tip}"></h1>-->
+    <p style="color:red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+    <!--<label class="sr-only" th:text="#{login.username}">Username</label>-->
+    <input type = "text" name="username" class="form-control" placeholder="用户名" required="required" autofocus="">
+    <!--<label class="sr-only" th:text="#{login.password}">Password</label>-->
+    <input type="password" name="password" class="form-control" placeholder="密码" required="required">
+    <!--<div class="check-box mb-3">-->
+        <!--<label>-->
+            <input type="checkbox" value="remember-me">remember
+            <!--[[#{login.remember}]]-->
+        <!--</label>-->
+    <!--</div>-->
+    <button type="submit">Sign in</button><!--class="btn btn-lg btn-primary btn-block"-->
+</form>
+</body>
+</html>

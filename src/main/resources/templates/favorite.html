@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>收藏夹</title>
+</head>
+<body>
+
+<div th:replace="public/head">
+</div>
+
+<div th:each="favoriteGoods:${favoriteGoodses}">
+    <a th:href="@{/goods/} + ${favoriteGoods.goodsid}" th:text="${favoriteGoods.title}"></a>
+    <a th:text="${favoriteGoods.price}"></a>
+    <button th:attr="del_favorite=@{/favorite/} + ${favoriteGoods.goodsid}" class="btn btn-sm btn-danger deleteBtn">删除</button>
+</div>
+
+<form id="deleteFavorite" method="post">
+    <input type="hidden" name="_method" value="delete">
+</form>
+
+<!--<script type="text/javascript">-->
+    <!--$(".deleteBtn").click(function () {-->
+        <!--//删除收藏的-->
+        <!--$("#deleteFavorite").attr("action", $(this).attr("del_favorite")).submit();-->
+        <!--return false;-->
+    <!--})-->
+<!--</script>-->
+
+<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/webjars/jquery/3.3.1-1/jquery.js}"></script>
+<script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/webjars/popper.js/1.14.1/esm/popper.js}"></script>
+<script type="text/javascript" src="asserts/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.js}"></script>
+
+<script>
+    $(".deleteBtn").click(function(){
+        //删除当前员工的
+        $("#deleteFavorite").attr("action",$(this).attr("del_favorite")).submit();
+        return false;
+    });
+</script>
+
+</body>
+</html>

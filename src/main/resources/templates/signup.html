@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th ="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+
+<div>欢迎来到校园二手信息网站</div>
+
+<form th:action="@{/signup}" method="post">
+    <p style="color:red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+    <div>
+        <label><a style="color: red">*</a>用户名</label>
+        <input type="text" name="username">
+    </div>
+
+    <div>
+        <label><a style="color: red">*</a>密码</label>
+        <input type="password" name="password">
+    </div>
+
+    <div>
+        <label><a style="color: red">*</a>确认密码</label>
+        <input type="password" name="password1">
+    </div>
+
+    <div>
+        <button type="submit" style="color: coral">同意协议，完成注册</button>
+    </div>
+
+</form>
+<div th:replace="~{public/footer :: copy}"></div>
+</body>
+</html>
