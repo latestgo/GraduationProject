@@ -4,20 +4,47 @@
     <meta charset="UTF-8">
     <title>校园二手信息网站</title>
 </head>
-<body>
+<body class="container">
 
-<div th:replace="public/head">
+<div th:replace="/public/head">
 </div>
 
 
-<h3>分类</h3><a>更多</a>
+<!--<h3>分类</h3><a>更多</a>-->
 
+<div class="items items-hover">
+    <div class="item" th:each="goods:${goodses}">
+        <div class="item-heading">
+            <!--<div class="pull-right label label-success">维基</div>-->
+            <h2><a th:href="@{/goods/} + ${goods.goodsid}" th:text="${goods.title}">HTML5 发展历史</a></h2>
+        </div>
+        <div class="item-content">
+            <!--缩略图-->
+            <div class="media pull-left"><img src="docs/img/img2.jpg" alt=""></div>
+            <div class="text" th:text="${goods.description}">已支持HTML5技术。</div>
+        </div>
+        <div class="item-footer">
+            <span class="text-muted icon icon-yen" th:text="${goods.price}+'元'"> 243</span> &nbsp; <span
+                class="text-muted" th:text="${goods.publishtime}">2013-11-11 16:14:37</span>
+        </div>
+    </div>
+</div>
 
-<div th:each="goods:${goodses}">
-        <a th:href="@{/goods/} + ${goods.goodsid}" th:text="${goods.title}">Card title</a>
-        <!--<p class="card-text"th:text="${goods.description}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-        <h5 th:text="${goods.description}"></h5>
-        <h5 th:text="${goods.price}"></h5>
+<!--开始分页-->
+<div th:with="page=${#httpServletRequest.getParameter('pageNum')}">
+    <ul class="pager pager-loose" th:with="pageNum=${page==null}?'1':${page}">
+        <li class="previous "><a th:if="${pageNum} >= 2" th:href="@{/index(pageNum=${pageNum}-1)}">&laquo;上一页</a></li>
+        <li><a th:if="${pageNum}-2>0" th:href="@{/index(pageNum=${pageNum}-2)}" th:text="${pageNum}-2">1</a></li>
+        <li><a th:if="${pageNum}-1>0" th:href="@{/index(pageNum=${pageNum}-1)}" th:text="${pageNum}-1">2</a></li>
+        <li class="active"><a th:href="@{/index(pageNum=${pageNum})}" th:text="${pageNum}">3</a></li>
+        <li><a th:if="${pageNum}+1<=${pageinfo.pages}" th:href="@{/index(pageNum=${pageNum}+1)}" th:text="${pageNum}+1">4</a></li>
+        <li><a th:if="${pageNum}+2<=${pageinfo.pages}" th:href="@{/index(pageNum=${pageNum}+2)}" th:text="${pageNum}+2">5</a></li>
+        <li class="next"><a th:if="${pageNum}<${pageinfo.pages}" th:href="@{/index(pageNum=${pageNum}+1)}">下一页&raquo;</a></li>
+        <li><a th:text="'共'+${pageinfo.pages} + '页'">共</a></li>
+    </ul>
+</div>
+
+<div th:replace="/public/footer">
 </div>
 
 </body>

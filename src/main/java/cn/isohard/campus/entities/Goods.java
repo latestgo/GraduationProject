@@ -1,5 +1,6 @@
 package cn.isohard.campus.entities;
 
+import java.awt.*;
 import java.util.Date;
 
 public class Goods {
@@ -18,20 +19,76 @@ public class Goods {
 
     private boolean status;
 
-    @Override
-    public String toString() {
-        return "goods{" +
-                "goodsid=" + goodsid +
-                ", userid=" + userid +
-                ", categoryid=" + categoryid +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", publishtime=" + publishtime +
-                '}';
-    }
+    private Image image1;
+    private Image image2;
+    private Image image3;
+    private Image image4;
+
+    private Image image5;
 
     private Date publishtime;
+
+    public Image getImage1() {
+        return image1;
+    }
+
+    public void setImage1(Image image1) {
+        this.image1 = image1;
+    }
+
+    public Image getImage2() {
+        return image2;
+    }
+
+    public void setImage2(Image image2) {
+        this.image2 = image2;
+    }
+
+    public Image getImage3() {
+        return image3;
+    }
+
+    public void setImage3(Image image3) {
+        this.image3 = image3;
+    }
+
+    public Image getImage4() {
+        return image4;
+    }
+
+    public void setImage4(Image image4) {
+        this.image4 = image4;
+    }
+
+    public Image getImage5() {
+        return image5;
+    }
+
+    public void setImage5(Image image5) {
+        this.image5 = image5;
+    }
+
+    public Goods() {
+        super();
+    }
+
+    public Goods(Integer goodsid, Integer userid, Integer categoryid, String title, String description, Integer price, boolean status, Image image1, Image image2, Image image3, Image image4, Image image5, Date publishtime) {
+        super();
+        this.goodsid = goodsid;
+        this.userid = userid;
+        this.categoryid = categoryid;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.status = status;
+        this.image1 = image1;
+        this.image2 = image2;
+        this.image3 = image3;
+        this.image4 = image4;
+        this.image5 = image5;
+        this.publishtime = publishtime;
+    }
+
 
     //fixme
     //图片操作
@@ -89,21 +146,6 @@ public class Goods {
     }
 
     public void setPublishtime(Date publishtime) {
-        this.publishtime = publishtime;
-    }
-
-    public Goods() {
-        super();
-    }
-
-    public Goods(Integer goodsid, Integer userid, Integer categoryid, String title, String description, Integer price, boolean status, Date publishtime) {
-        this.goodsid = goodsid;
-        this.userid = userid;
-        this.categoryid = categoryid;
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.status = status;
         this.publishtime = publishtime;
     }
 

@@ -19,8 +19,9 @@ public class UserController {
 
     //登录页面
     @GetMapping("/signin")
-    public String login() {
-        return "login";
+    public String login(HttpSession session) {
+        session.removeAttribute("url");
+        return "/login";
     }
 
     //登录校验
@@ -29,12 +30,16 @@ public class UserController {
                          @RequestParam("password") String password,
                          Map<String, Object> map, HttpSession session) {
         if(userService.isLogin(username, password)) {
-            session.setAttribute("loginUser", username);
-            return "redirect:index";
+            session.setAttribute("loginUser", username); System.out.println(username);
+            String url = String.valueOf(session.getAttribute("url")); System.out.println(url);
+            if(url == "null")
+                return "redirect:/index";
+            else
+                return "redirect:"+url;
         }else {
             //登录失败
             map.put("msg", "用户名或密码错误");
-            return "login";
+            return "/login";
         }
     }
 
@@ -42,6 +47,7 @@ public class UserController {
     @GetMapping("/signout")
     public String signout(HttpSession session) {
         session.removeAttribute("loginUser");
+        session.removeAttribute("url");
         return "redirect:/index";
     }
 
@@ -57,11 +63,16 @@ public class UserController {
         if (userService.isValidUsername(user.getUsername())){
             userService.insertUser(user.getUsername(), user.getPassword());
             map.put("msg" , "注册成功，请登录");
-            return "login";
+            return "/login";
         }else {
             //用户名重复
             map.put("msg", "用户名已存在");
-            return "signup";
+            return "/signup";
         }
+    }
+
+    @GetMapping("/profile")
+    public void profilepage() {
+        return "/profile";
     }
 }

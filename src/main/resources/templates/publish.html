@@ -4,21 +4,41 @@
     <meta charset="UTF-8">
     <title>发布信息</title>
 </head>
-<body>
+<body class="container">
 
-<div th:replace="public/head">
+<div th:replace="/public/head">
 </div>
-
 <form th:action="@{/publish}" method="post">
-    <input type="hidden" name="_method" value="put" th:if="${goods!=null}"/>
-    <p style="color:red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
-    <input type="text" name="title" placeholder="標題"  required="required" th:value="${goods!=null}?${goods.title}">
-    <input type="text" name="description" placeholder="描述" required="required" th:value="${goods!=null}?${goods.description}">
-    <input type="text" name="price" placeholder="价格" required="required" th:value="${goods!=null}?${goods.price}"><br>
-    <button type="submit" th:text="${goods!=null}?'修改':'发布'">发布</button>
+    <div class="form-group">
+        <input type="hidden" name="_method" value="put" th:if="${goods!=null}"/>
+        <input type="hidden" name="goodsid" th:value="${goods.goodsid}" th:if="${goods!=null}">
+    </div>
+    <div class="form-group">
+        <label></label>
+        <p style="color:red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+    </div>
+    <div class="form-group">
+        <label>标题</label>
+        <input type="text" class="form-control" name="title" placeholder="标题"  required="required" th:value="${goods!=null}?${goods.title}">
+    </div>
+    <div class="form-group">
+        <label>详情描述</label>
+        <input type="text" class="form-control" name="description" placeholder="详情描述" required="required" th:value="${goods!=null}?${goods.description}">
+    </div>
+    <div class="form-group">
+        <label for="money">价格</label>
+        <div class="input-group">
+            <span class="input-group-addon">￥</span>
+            <input type="number" class="form-control" id="money" name="price" placeholder="价格" required="required" th:value="${goods!=null}?${goods.price}">
+            <span class="input-group-addon">.00</span>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit" th:text="${goods!=null}?'修改':'发布'">发布</button>
+    <a type="hidden" class="btn btn-primary" th:if="${goods!=null}" th:href="@{/mygoods}">取消</a>
+    <a type="hidden" class="btn btn-primary" th:if="${goods==null}" th:href="@{/index}">取消</a>
 </form>
-    <a type="hidden" th:if="${goods!=null}" th:href="@{/mygoods}"><button type="button">取消</button></a>
-    <a type="hidden" th:if="${goods==null}" th:href="@{/index}"><button type="button">取消</button></a>
 
+<div th:replace="~{/public/footer :: copy}"></div>
+</div>
 </body>
 </html>

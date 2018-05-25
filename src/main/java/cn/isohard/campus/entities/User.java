@@ -8,16 +8,11 @@ public class User {
 
     private String password;
 
-    public User() {
-        super();
-    }
+    private String phone;
 
-    public User(Integer userid, String username, String password) {
-        super();
-        this.userid = userid;
-        this.username = username;
-        this.password = password;
-    }
+    private String realname;
+
+    private String studentid;
 
     public Integer getUserid() {
         return userid;
@@ -43,6 +38,30 @@ public class User {
         this.password = password;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
+
+    public String getStudentid() {
+        return studentid;
+    }
+
+    public void setStudentid(String studentid) {
+        this.studentid = studentid;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -50,5 +69,14 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public User(Integer userid, String username, String password, String phone, String realname, String studentid) {
+        this.userid = userid;
+        this.username = username;
+        this.password = password;
+        this.phone = phone;
+        this.realname = realname;
+        this.studentid = studentid;
     }
 }

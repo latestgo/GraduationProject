@@ -1,10 +1,8 @@
 package cn.isohard.campus.mapper;
 
+import cn.isohard.campus.entities.Favorite;
 import cn.isohard.campus.entities.Goods;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -16,4 +14,19 @@ public interface FavoriteMapper {
 
     @Delete("delete from favorite where goodsid=#{goodsid}")
     public void deleteFavoriteByGoodsid(@Param("goodsid") Integer goodsid);
+
+    /**
+     * 添加收藏
+     */
+    @Insert("insert into favorite (userid, goodsid) value(#{userid}, #{goodsid})")
+    public void addFavorite(@Param("userid") Integer userid, @Param("goodsid") Integer goodsid);
+
+    /**
+     * 查询 goodsid 和 userid 出现在收藏表没
+     * @param userid
+     * @param goodsid
+     * @return
+     */
+    @Select("select * from favorite where userid=#{userid} and goodsid=#{goodsid}")
+    public Favorite isFavorite(@Param("userid") Integer userid, @Param("goodsid") Integer goodsid);
 }

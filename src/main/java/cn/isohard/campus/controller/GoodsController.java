@@ -1,8 +1,10 @@
 package cn.isohard.campus.controller;
 
 import cn.isohard.campus.entities.Goods;
+import cn.isohard.campus.service.FavoriteService;
 import cn.isohard.campus.service.GoodsService;
 import cn.isohard.campus.service.UserService;
+import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +25,18 @@ public class GoodsController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FavoriteService favoriteService;
+
     //查看goods详情
     @GetMapping("/goods/{goodsid}")
-    public String detail(@PathVariable("goodsid") Integer goodsid, Model model) {
+    public String detail(@PathVariable("goodsid") Integer goodsid, Model model, HttpSession session) {
         model.addAttribute("goods", goodsService.getGoodsById(goodsid));
-        return "detail";
+        String username = String.valueOf(session.getAttribute("loginUser"));
+        Integer userid = userService.getUseriddByUsername(username);
+        boolean isfavorite = favoriteService.isFavorite(userid, goodsid);
+        model.addAttribute("isfavorite", isfavorite);
+        return "/detail";
     }
 
     //查看发布的信息
@@ -38,7 +47,7 @@ public class GoodsController {
         List<Goods> ListGoods= goodsService.getGoodsByUserid(userid);
         System.out.println(ListGoods);
         model.addAttribute("ListGoods", ListGoods);
-        return "mygoods";
+        return "/mygoods";
     }
 
     /**
@@ -49,7 +58,7 @@ public class GoodsController {
     @DeleteMapping("/mygoods/{goodsid}")
     public String deletePublished(@PathVariable("goodsid") Integer goodsid) {
         goodsService.deleteGoodsByGoodsid(goodsid);
-        return "public";
+        return "redirect:/mygoods";
     }
 
     //首先来到修改页面
@@ -57,18 +66,8 @@ public class GoodsController {
     public String editPublished(@PathVariable("goodsid") Integer goodsid, Model model) {
         Goods goods = goodsService.getGoodsById(goodsid);
         model.addAttribute("goods", goods);
-        return "publish";
+        return "/publish";
     }
 
 
-    /**
-     *修改操作
-     * @param goodsid
-     * @return
-     */
-    @PutMapping("/mygoods/{goodsid}")
-    public String putPublished(@PathVariable("goodsid") Integer goodsid) {
-
-        return "publish";
-    }
 }

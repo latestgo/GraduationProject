@@ -17,9 +17,9 @@ public interface GoodsMapper {
     @Select("select * from goods where goodsid=#{goodsid}")
     public Goods getGoodsById(@Param("goodsid") Integer goodsid);
 
-    //插入一条信息
-    @Insert("insert into goods (userid, categoryid, title, description, price) value(#{userid,}, #{categoryid}, #{title}, #{description}, #{price})")
-    public void addGoods(@Param("userid") Integer userid, @Param("categoryid") Integer categoryid, @Param("title") String goodsname, @Param("description") String description, @Param("price") Integer price);
+    //插入一条二手信息
+    @Insert("insert into goods (userid, categoryid, title, description, price, publishtime) value (#{userid}, #{categoryid}, #{title}, #{description}, #{price}, #{publishtime})")
+    public void addGoods(Goods goods);
 
     /**
      * 通过userid查询title
@@ -52,6 +52,20 @@ public interface GoodsMapper {
     @Delete("delete from goods where goodsid=#{goodsid}")
     public void deleteGoodsByGoodsid(@Param("goodsid") Integer goodsid);
 
-    @Update("update goods set #{goodsAttr} = #{goodsValue} where goodsid = #{goodsid}")
-    public void updateGoodsByGoodsid(@Param("goodsAttr") String goodsAttr, @Param("goodsValue") String goodsVaule, @Param("goodsid") Integer goodsid);
+
+    /**
+     * 更新goods
+     * @param goods
+     */
+    @Update("<script>" +
+            "update goods" +
+            "<set>" +
+            "<if test='title !=null'>title=#{title}, </if>" +
+            "<if test='description !=null'>description=#{description}, </if>" +
+            "<if test='price != null'>price=#{price},</if>" +
+            "<if test='publishtime != null'>publishtime=#{publishtime}, </if>" +
+            "</set>" +
+            "where goodsid=#{goodsid};" +
+            "</script>")
+    public void updateGoods(Goods goods);
 }

@@ -4,17 +4,51 @@
 <head>
     <title>Title</title>
 </head>
-<body>
+<body class="container">
 
-<div th:replace="public/head">
+<div th:replace="/public/head">
 </div>
 
-<div>
-    <p th:text="${goods.title}"></p>
-    <p th:text="${goods.description}"></p>
-    <p th:text="${goods.price}"></p>
-    <p th:text="${goods.publishtime}"></p>
-</div>
+<article class="article">
+    <header>
+        <h1 class="text-left" th:text="${goods.title}">HTML5</h1>
+        <!--<dl class="dl-inline">-->
+            <!--<dd th:text="${goods.publishtime}">2016年8月12日 (星期五) 12:53</dd>-->
+            <!--<dt></dt>-->
+            <!--<dd class="pull-right"><a class="label label-success" th:href="@{/favorite/} + ${goods.goodsid}" th:if="${!isfavorite}" th:text="收藏">HTML</a> <span class="label label-warning" th:text="已收藏" th:if="${isfavorite}">网页设计</span></dd>-->
+        <!--</dl>-->
+        <!--<section class="abstract">-->
+            <!---->
+        <!--</section>-->
+        <dt class="text-right">
+            <a th:href="@{/favorite/} + ${goods.goodsid}" th:if="${!isfavorite}">收藏</a>
+
+            <a th:text="已收藏" th:if="${isfavorite}"></a>
+
+            <a class="" th:text="举报" th:href="@{#}"></a>
+        </dt>
+        <hr>
+    </header>
+
+
+    <section class="content">
+        <h2>信息详情</h2>
+        <hr>
+        <p class="font" th:text="${goods.description}"></p>
+    </section>
+
+</article>
+
+<!--<div>-->
+
+    <!--<a th:href="@{/favorite/} + ${goods.goodsid}" th:if="${!isfavorite}">收藏</a>-->
+    <!--<a th:text="已收藏" th:if="${isfavorite}"></a>-->
+    <!--<p th:text="${goods.title}"></p>-->
+    <!--<p th:text="${goods.description}"></p>-->
+    <!--<p th:text="${goods.price}"></p>-->
+    <!--<p th:text="${goods.publishtime}"></p>-->
+<!--</div>-->
+<div th:replace="~{/public/footer :: copy}"></div>
 
 </body>
 </html>

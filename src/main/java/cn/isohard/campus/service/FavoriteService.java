@@ -1,5 +1,6 @@
 package cn.isohard.campus.service;
 
+import cn.isohard.campus.entities.Favorite;
 import cn.isohard.campus.entities.Goods;
 import cn.isohard.campus.mapper.FavoriteMapper;
 import cn.isohard.campus.mapper.GoodsMapper;
@@ -26,6 +27,7 @@ public class FavoriteService {
         List<Goods> favoriteGoods = new ArrayList<>();
         Integer userid = userMapper.selectUseridByUsername(username);
         List<Integer> goodsid = favoriteMapper.selectGoodsidByUserid(userid);
+        System.out.println(goodsid);
         for(Integer goodsideach : goodsid) {
             favoriteGoods.add(goodsMapper.getGoodsById(goodsideach));
             System.out.println(favoriteGoods);
@@ -36,4 +38,24 @@ public class FavoriteService {
     public void deleteFavoriteByGoodsid(Integer goodsid) {
         favoriteMapper.deleteFavoriteByGoodsid(goodsid);
     }
+
+    /**
+     * 添加收藏
+     * @param userid
+     * @param goodsid
+     */
+    public void addFavorite(Integer userid, Integer goodsid) {
+        favoriteMapper.addFavorite(userid, goodsid);
+    }
+
+
+    public boolean isFavorite(Integer userid, Integer goodsid) {
+        Favorite favorite = favoriteMapper.isFavorite(userid, goodsid);
+        if (favorite !=null) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 }

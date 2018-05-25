@@ -1,6 +1,7 @@
 package cn.isohard.campus.controller;
 
 import cn.isohard.campus.service.FavoriteService;
+import cn.isohard.campus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +18,13 @@ public class FavoriteController {
     @Autowired
     private FavoriteService favoriteService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/favorite")
     public String listFavorite(Model model, HttpSession session) {
         model.addAttribute("favoriteGoodses", favoriteService.getFavoriteGoods((String) session.getAttribute("loginUser")));
-        return "favorite";
+        return "/favorite";
     }
 
     @DeleteMapping(value = "/favorite/{goodsid}")
@@ -29,4 +33,16 @@ public class FavoriteController {
         return "redirect:/favorite";
     }
 
+    /**
+     * 添加收藏
+     * @param goodsid
+     * @param session
+     */
+    @GetMapping("/favorite/{goodsid}")
+    public String addFavorite(@PathVariable("goodsid") Integer goodsid, HttpSession session) {
+        String username = String.valueOf(session.getAttribute("loginUser"));
+        Integer userid = userService.getUseriddByUsername(username);
+        favoriteService.addFavorite(userid, goodsid);
+        return "redirect:/goods/" + goodsid;
+    }
 }

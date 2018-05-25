@@ -23,18 +23,37 @@ public class PublishController {
 
     @GetMapping("/publish")
     public String publishPage() {
-        return "publish";
+        return "/publish";
     }
 
+    @GetMapping("/publish/{s}")
+    public String publishedPage(@PathVariable("s") String s, Map<String, Object> map) {
+        if(s.equals("1"))
+            map.put("msg", "发布成功");
+        return "/publish";
+    }
+
+
     @PostMapping(value = "/publish")
-    public String toPublish(Goods goods, HttpSession session, Map<String, Object> map) {
+    public String toPublish(Goods goods, HttpSession session) {
         String username = (String) session.getAttribute("loginUser");
         System.out.println(username + "+" + goods);
         Integer userid = userService.getUseriddByUsername(username);
         goods.setUserid(userid);
-        goodsService.addGoods(goods.getUserid(), goods.getCategoryid(), goods.getTitle(), goods.getDescription(), goods.getPrice());
+        goodsService.addGoods(goods);
 
-        map.put("msg", "发布成功");
-        return "publish";
+        return "redirect:/publish/1";
+    }
+
+    /**
+     *修改操作
+     * @param goods
+     * @return
+     */
+    @PutMapping("/publish")
+    public String putPublished(Goods goods) {
+        System.out.println(goods);
+        goodsService.updateGoods(goods);
+        return "redirect:/mygoods";
     }
 }

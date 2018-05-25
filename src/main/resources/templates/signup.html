@@ -4,32 +4,83 @@
     <meta charset="UTF-8">
     <title>注册</title>
 </head>
-<body>
+<body class="container">
 
-<div>欢迎来到校园二手信息网站</div>
 
-<form th:action="@{/signup}" method="post">
-    <p style="color:red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
-    <div>
-        <label><a style="color: red">*</a>用户名</label>
-        <input type="text" name="username">
+<div th:replace="/public/head">
+</div>
+
+<div class="text-center">欢迎来到校园二手信息网站</div>
+
+<!--已有账号，<a th:href="@{/signin}">登录</a>-->
+
+<form th:action="@{/signup}" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2"></label>
+        <div class="col-md-6 col-sm-10">
+            <p style="color:red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+        </div>
     </div>
 
-    <div>
-        <label><a style="color: red">*</a>密码</label>
-        <input type="password" name="password">
+    <div class="form-group">
+        <label class="col-sm-2 required">用户名</label>
+        <div class="col-md-6 col-sm-10">
+            <input class="form-control" type="text" name="username" required="required">
+        </div>
     </div>
 
-    <div>
-        <label><a style="color: red">*</a>确认密码</label>
-        <input type="password" name="password1">
+    <div class="form-group">
+        <label class="col-sm-2 required">密码</label>
+        <div class="col-md-6 col-sm-10">
+            <input class="form-control" type="password" name="password" required="required">
+        </div>
     </div>
 
-    <div>
-        <button type="submit" style="color: coral">同意协议，完成注册</button>
+    <div class="form-group">
+        <label class="col-sm-2 required">确认密码</label>
+        <div class="col-md-6 col-sm-10">
+            <input class="form-control" type="password" name="password1" required="required">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2">电话号码</label>
+        <div class="col-md-6 col-sm-10">
+            <input class="form-control" type="text" name="phone">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2">真实姓名</label>
+        <div class="col-md-6 col-sm-10">
+            <input class="form-control" type="text" name="realname">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2">学号</label>
+        <div class="col-md-6 col-sm-10">
+            <input class="form-control" type="text" name="studentid">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" required="required">我已阅读并接受用户协议
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">注册</button>
+        </div>
     </div>
 
 </form>
-<div th:replace="~{public/footer :: copy}"></div>
+<div th:replace="~{/public/footer :: copy}"></div>
 </body>
 </html>

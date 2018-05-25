@@ -3,16 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/dist/css/zui.min.css}">
+    <script th:src="@{/dist/lib/jquery/jquery.js}"></script>
+    <script th:src="@{/dist/js/zui.min.hs}"></script>
 </head>
 <body>
-<a th:href="@{/signout}" th:if="${not #strings.isEmpty(session.loginUser)}" th:text="退出"></a>
-<div th:if="${#strings.isEmpty(session.loginUser)}">
-    <a th:href="@{/signin}" th:text="登录"></a>
-    <a th:href="@{/signup}" th:text="注册"></a>
-</div>
-<a th:href="@{/favorite}">收藏夹</a>
-<a th:href="@{/publish}">快速发布信息</a>
-<a th:href="@{/mygoods}">我的发布</a>
-<a th:href="@{/index}">首页</a>
+
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <!-- 移动设备上的导航切换按钮 -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-example">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- 品牌名称或logo -->
+            <a class="navbar-brand" th:href="@{/index}">首页</a>
+        </div>
+
+        <!-- 导航项目 -->
+        <div class="collapse navbar-collapse navbar-collapse-example">
+            <!-- 一般导航项目 -->
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/publish}">发布二手信息</a></li>
+                <li><a th:href="@{/mygoods}">查看我的发布</a></li>
+                <li><a th:href="@{/favorite}">我的收藏</a></li>
+
+                <!-- 导航中的下拉菜单 -->
+                <!--<li class="dropdown">-->
+                    <!--<a href="your/nice/url" class="dropdown-toggle" data-toggle="dropdown">管理 <b class="caret"></b></a>-->
+                    <!--<ul class="dropdown-menu" role="menu">-->
+                        <!--<li><a href="your/nice/url">任务</a></li>-->
+                        <!--...-->
+                    <!--</ul>-->
+                <!--</li>-->
+
+                <!-- 导航中的表单 -->
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="搜索">
+                    </div>
+                    <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a th:href="@{/my}" th:if="${not #strings.isEmpty(session.loginUser)}" th:text="${session.loginUser}"></a></li>
+                    <li><a th:href="@{/signout}" th:if="${not #strings.isEmpty(session.loginUser)}" th:text="退出"></a></li>
+                    <li><a th:href="@{/signin}" th:text="登录" th:if="${#strings.isEmpty(session.loginUser)}"></a></li>
+                    <li><a th:href="@{/signup}" th:text="注册" th:if="${#strings.isEmpty(session.loginUser)}"></a></li>
+                </ul>
+            </ul>
+        </div><!-- END .navbar-collapse -->
+    </div>
+</nav>
+
 </body>
 </html>
