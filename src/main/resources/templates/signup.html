@@ -14,7 +14,13 @@
 
 <!--已有账号，<a th:href="@{/signin}">登录</a>-->
 
-<form th:action="@{/signup}" method="post" class="form-horizontal">
+<form th:action="${user==null}?@{/signup}:@{/profile}" method="post" class="form-horizontal">
+
+    <div class="form-group">
+        <input type="hidden" name="_method" value="put" th:if="${user!=null}"/>
+        <input type="hidden" name="userid" th:value="${user.userid}" th:if="${user!=null}">
+    </div>
+
     <div class="form-group">
         <label class="col-sm-2"></label>
         <div class="col-md-6 col-sm-10">
@@ -25,46 +31,46 @@
     <div class="form-group">
         <label class="col-sm-2 required">用户名</label>
         <div class="col-md-6 col-sm-10">
-            <input class="form-control" type="text" name="username" required="required">
+            <input class="form-control" type="text" name="username" required="required" th:value="${user!=null}?${user.username}" th:disabled="${user!=null}">
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-2 required">密码</label>
         <div class="col-md-6 col-sm-10">
-            <input class="form-control" type="password" name="password" required="required">
+            <input class="form-control" type="password" name="password" required="required" th:value="${user!=null}?${user.password}">
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-2 required">确认密码</label>
         <div class="col-md-6 col-sm-10">
-            <input class="form-control" type="password" name="password1" required="required">
+            <input class="form-control" type="password" name="password1" required="required" th:value="${user!=null}?${user.password}">
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-2">电话号码</label>
         <div class="col-md-6 col-sm-10">
-            <input class="form-control" type="text" name="phone">
+            <input class="form-control" type="text" name="phone" th:value="${user!=null}?${user.phone}">
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-2">真实姓名</label>
         <div class="col-md-6 col-sm-10">
-            <input class="form-control" type="text" name="realname">
+            <input class="form-control" type="text" name="realname" th:value="${user!=null}?${user.realname}">
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-2">学号</label>
         <div class="col-md-6 col-sm-10">
-            <input class="form-control" type="text" name="studentid">
+            <input class="form-control" type="text" name="studentid" th:value="${user!=null}?${user.studentid}">
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" th:if="${user==null}">
         <div class="col-sm-offset-2 col-sm-10">
             <div class="checkbox">
                 <label>
@@ -76,7 +82,9 @@
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default">注册</button>
+            <button type="submit" class="btn btn-default" th:if="${user==null}">注册</button>
+            <button type="submit" class="btn btn-default" th:if="${user!=null}">修改</button>
+            <a class="btn btn-default" th:href="${user==null}?@{/index}:@{/profile}">取消</a>
         </div>
     </div>
 

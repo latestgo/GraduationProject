@@ -13,7 +13,11 @@ public interface GoodsMapper {
     @Select("select * from goods where status= 1 ")
     public List<Goods> getGoodsAll();
 
-    //通过goodid查询商品
+    /**
+     * 通过goodid查询商品
+     * @param goodsid
+     * @return
+     */
     @Select("select * from goods where goodsid=#{goodsid}")
     public Goods getGoodsById(@Param("goodsid") Integer goodsid);
 
@@ -68,4 +72,12 @@ public interface GoodsMapper {
             "where goodsid=#{goodsid};" +
             "</script>")
     public void updateGoods(Goods goods);
+
+    /**
+     * get Goods's userid by goodsid
+     * @param goodsid
+     * @return
+     */
+    @Select("select userid from goods where goodsid = #{goodsid}")
+    public Integer getUseridByGoodsid(@Param("goodsid") Integer goodsid);
 }

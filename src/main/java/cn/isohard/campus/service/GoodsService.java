@@ -23,6 +23,11 @@ public class GoodsService {
         return goodsMapper.getGoodsAll();
     }
 
+    /**
+     * 通过信息ID获取信息全部
+     * @param goodsid
+     * @return
+     */
     public Goods getGoodsById(Integer goodsid) {
         return goodsMapper.getGoodsById(goodsid);
     }
@@ -38,6 +43,9 @@ public class GoodsService {
         goodsMapper.addGoods(goods);
     }
 
+    /*
+    find mine publishment
+     */
     public List<String> getTitleByUserid(Integer userid) {
         return goodsMapper.getTitleByUserid(userid);
     }
@@ -89,4 +97,21 @@ public class GoodsService {
         return GoodsList;
     }
 
+    /**
+     * 分页查询用户发布的Goods
+     * @param userid
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public List<Goods> getMyGoodsByPage(Integer userid, Integer pageNum, Integer pageSize){
+        Integer startRow = (pageNum - 1) * pageSize;
+        PageHelper.offsetPage(startRow, pageSize);
+        List<Goods> goodses = goodsMapper.getGoodsByUserid(userid);
+        return goodses;
+    }
+
+    public Integer getUseridByGoodsid(Integer goodsid) {
+        return goodsMapper.getUseridByGoodsid(goodsid);
+    }
 }

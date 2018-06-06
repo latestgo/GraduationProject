@@ -5,6 +5,7 @@ import cn.isohard.campus.entities.Goods;
 import cn.isohard.campus.mapper.FavoriteMapper;
 import cn.isohard.campus.mapper.GoodsMapper;
 import cn.isohard.campus.mapper.UserMapper;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +24,18 @@ public class FavoriteService {
     @Autowired
     private FavoriteMapper favoriteMapper;
 
-    public List<Goods> getFavoriteGoods(String username) {
-        List<Goods> favoriteGoods = new ArrayList<>();
+    /**
+     * get list of favorite goods by page
+     * @param username
+     * @return
+     */
+    public List<Integer> getFavoriteGoods(String username, Integer pageNum, Integer pageSize) {
         Integer userid = userMapper.selectUseridByUsername(username);
-        List<Integer> goodsid = favoriteMapper.selectGoodsidByUserid(userid);
-        System.out.println(goodsid);
-        for(Integer goodsideach : goodsid) {
-            favoriteGoods.add(goodsMapper.getGoodsById(goodsideach));
-            System.out.println(favoriteGoods);
-        }
-        return favoriteGoods;
+        Integer startRow = (pageNum - 1) * pageSize;
+        PageHelper.offsetPage(startRow, pageSize);
+        //start to spit page
+        List<Integer> favoriteGoodsId = favoriteMapper.selectGoodsidByUserid(userid);
+        return favoriteGoodsId;
     }
 
     public void deleteFavoriteByGoodsid(Integer goodsid) {

@@ -1,5 +1,6 @@
 package cn.isohard.campus.config;
 
+import cn.isohard.campus.compon.AdminHandleInterceptor;
 import cn.isohard.campus.compon.LoginHandleInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
             public void addViewControllers(ViewControllerRegistry registry) {
 
                 registry.addViewController("/login").setViewName("/login");
+
             }
 
             //注册拦截器
@@ -33,6 +35,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
             public void addInterceptors(InterceptorRegistry registry) {
                 //super.addInterceptors(registry);
                 registry.addInterceptor(new LoginHandleInterceptor()).addPathPatterns("/favorite", "/favorite/*", "/publish", "/publish/**", "/mygoods", "/mygoods/**", "/my", "/my/**");//.excludePathPatterns("/", "/login", "/detail", "/index", "/signup", "/signin", "signout", "/goods/**");
+                registry.addInterceptor(new AdminHandleInterceptor()).addPathPatterns("/admin/**").excludePathPatterns("/admin/login");
             }
         };
         return adapter;

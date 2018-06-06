@@ -4,14 +4,13 @@ import cn.isohard.campus.entities.Goods;
 import cn.isohard.campus.service.FavoriteService;
 import cn.isohard.campus.service.GoodsService;
 import cn.isohard.campus.service.UserService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -32,6 +31,7 @@ public class GoodsController {
     @GetMapping("/goods/{goodsid}")
     public String detail(@PathVariable("goodsid") Integer goodsid, Model model, HttpSession session) {
         model.addAttribute("goods", goodsService.getGoodsById(goodsid));
+        model.addAttribute("user",userService.getUserByUserid(goodsService.getUseridByGoodsid(goodsid)));
         String username = String.valueOf(session.getAttribute("loginUser"));
         Integer userid = userService.getUseriddByUsername(username);
         boolean isfavorite = favoriteService.isFavorite(userid, goodsid);
@@ -39,14 +39,22 @@ public class GoodsController {
         return "/detail";
     }
 
-    //查看发布的信息
+    //查看mine发布的信息
     @GetMapping("/mygoods")
-    public String listMyGoods(Model model, HttpSession session) {
+    public String listMyGoods(Model model, HttpSession session, @RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize) {
         String username = String.valueOf(session.getAttribute("loginUser"));
         Integer userid = userService.getUseriddByUsername(username);
-        List<Goods> ListGoods= goodsService.getGoodsByUserid(userid);
-        System.out.println(ListGoods);
-        model.addAttribute("ListGoods", ListGoods);
+        List<Goods> goodses= goodsService.getMyGoodsByPage(userid, pageNum, pageSize);
+        PageInfo pageInfo = new PageInfo(goodses);
+        Page page = (Page) goodses;
+        model.addAttribute("pageinfo", page);
+        model.addAttribute("goodses", goodses);
+        if(pageNum < 1) {
+            return "redirect:/mygoods?pageNum=1";
+        }
+        else if(pageNum > page.getPages()) {
+            return "redirect:/mygoods?pageNum=" + page.getPages();
+        }
         return "/mygoods";
     }
 
@@ -68,6 +76,4 @@ public class GoodsController {
         model.addAttribute("goods", goods);
         return "/publish";
     }
-
-
 }

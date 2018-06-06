@@ -4,9 +4,8 @@ import cn.isohard.campus.entities.User;
 import cn.isohard.campus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -61,7 +60,7 @@ public class UserController {
     @PostMapping("/signup")
     public String singupCheck(User user, Map<String, Object> map) {
         if (userService.isValidUsername(user.getUsername())){
-            userService.insertUser(user.getUsername(), user.getPassword());
+            userService.insertUser(user);
             map.put("msg" , "注册成功，请登录");
             return "/login";
         }else {
@@ -72,7 +71,22 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public void profilepage() {
+    public String profilepage(Model model, HttpSession session) {
+        String username = String.valueOf(session.getAttribute("loginUser"));
+        User user = userService.getUserByUsername(username);
+        model.addAttribute("user", user);
         return "/profile";
+    }
+    @GetMapping("/profile/{username}")
+    public String profileEdit(@PathVariable("username") String username, Model model) {
+        User user = userService.getUserByUsername(username);
+        model.addAttribute("user", user);
+        return "/signup";
+    }
+
+    @PutMapping("/profile")
+    public String profilePut(User user) {
+        userService.updateUser(user);
+        return "redirect:/profile";
     }
 }

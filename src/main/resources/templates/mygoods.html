@@ -18,35 +18,31 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="Goods:${ListGoods}">
+    <tr th:each="goods:${goodses}">
         <td> </td>
         <td>
-            <a th:href="@{/goods/} + ${Goods.goodsid}" th:text="${Goods.title}"></a>
+            <a th:href="@{/goods/} + ${goods.goodsid}" th:text="${goods.title}"></a>
         </td>
         <td class="text-right">
-            <button class="btn"><a th:href="@{/mygoods/} + ${Goods.goodsid}">编辑</a></button>
-            <button th:attr="del_mygoods=@{/mygoods/} + ${Goods.goodsid}" class="btn deleteBtn">删除</button>
+            <a class="btn btn-default" th:href="@{/mygoods/} + ${goods.goodsid}">编辑</a>
+            <button th:attr="del_mygoods=@{/mygoods/} + ${goods.goodsid}" class="btn deleteBtn">删除</button>
         </td>
     </tr>
-
-
-
     </tbody>
 </table>
 
-<!--<div th:each="Goods:${ListGoods}">-->
-    <!--<a th:href="@{/goods/} + ${Goods.goodsid}" th:text="${Goods.title}"></a>-->
-    <!--<a th:text="${Goods.price}"></a>-->
-
-
-    <!--<div>-->
-        <!--<a th:href="@{/mygoods/} + ${Goods.goodsid}">编辑</a>-->
-        <!--<button th:attr="del_mygoods=@{/mygoods/} + ${Goods.goodsid}" class="btn btn-sm btn-danger deleteBtn">-->
-            <!--删除-->
-        <!--</button>-->
-    <!--</div>-->
-<!--</div>-->
-
+<div th:with="page=${#httpServletRequest.getParameter('pageNum')}" >
+    <ul class="pager pager-loose" th:with="pageNum=${page==null}?'1':${page}">
+        <li class="previous "><a th:if="${pageNum} >= 2" th:href="@{/mygoods(pageNum=${pageNum}-1)}">&laquo;上一页</a></li>
+        <li><a th:if="${pageNum}-2>0" th:href="@{/mygoods(pageNum=${pageNum}-2)}" th:text="${pageNum}-2">1</a></li>
+        <li><a th:if="${pageNum}-1>0" th:href="@{/mygoods(pageNum=${pageNum}-1)}" th:text="${pageNum}-1">2</a></li>
+        <li class="active"><a th:href="@{/mygoods(pageNum=${pageNum})}" th:text="${pageNum}">3</a></li>
+        <li><a th:if="${pageNum}+1<=${pageinfo.pages}" th:href="@{/mygoods(pageNum=${pageNum}+1)}" th:text="${pageNum}+1">4</a></li>
+        <li><a th:if="${pageNum}+2<=${pageinfo.pages}" th:href="@{/mygoods(pageNum=${pageNum}+2)}" th:text="${pageNum}+2">5</a></li>
+        <li class="next"><a th:if="${pageNum}<${pageinfo.pages}" th:href="@{/mygoods(pageNum=${pageNum}+1)}">下一页&raquo;</a></li>
+        <li><a th:text="'共'+${pageinfo.pages} + '页'">共</a></li>
+    </ul>
+</div>
 <form id="deleteMygoods" method="post">
     <input type="hidden" name="_method" value="delete">
 </form>

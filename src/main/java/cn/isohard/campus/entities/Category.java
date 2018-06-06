@@ -22,9 +22,14 @@ public class Category {
         this.description = description;
     }
 
+    public Category(Integer categoryid, String description) {
+        this.categoryid = categoryid;
+        this.description = description;
+    }
+
     @Override
     public String toString() {
-        return "category{" +
+        return "Category{" +
                 "categoryid=" + categoryid +
                 ", description='" + description + '\'' +
                 '}';

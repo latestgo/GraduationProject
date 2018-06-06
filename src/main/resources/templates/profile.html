@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>我的信息</title>
 </head>
-<body>
+<body class="container">
+
+<div th:replace="/public/head">
+</div>
+
+<div class="">
+    <p>用户ID：<span th:text="${user.userid}"></span></p>
+    <p>用户名：<span th:text="${user.username}"></span></p>
+    <p>密码：<span>******</span></p>
+    <p>手机：<span th:text="${user.phone}"></span></p>
+    <p>真实姓名：<span th:text="${user.realname}"></span></p>
+    <p>学号：<span th:text="${user.studentid}"></span></p>
+    <a class="btn btn-default" th:href="@{/profile/}+${user.username}">编辑</a>
+</div>
+
+<div th:replace="~{/public/footer :: copy}"></div>
 
 </body>
 </html>
